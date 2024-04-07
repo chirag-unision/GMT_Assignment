@@ -20,13 +20,18 @@ import {
 import Login from './src/screens/Login/Login';
 import Signup from './src/screens/Signup/Signup';
 import LoginSuccess from './src/screens/LoginSuccess/LoginSuccess';
+import OnBoardingFirst from './src/screens/Onboarding/First';
+import OnBoardingSecond from './src/screens/Onboarding/Second';
+import OnBoardingThird from './src/screens/Onboarding/Third';
+import Forget from './src/screens/ForgetPassword/Forget';
+import Otp from './src/screens/ForgetPassword/Otp';
 
 
 function App(): React.JSX.Element {
 
   return (
     <SafeAreaView>
-      <LoginSuccess />
+      <Otp />
     </SafeAreaView>
   );
 }
