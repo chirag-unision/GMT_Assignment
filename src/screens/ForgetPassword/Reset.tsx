@@ -1,40 +1,76 @@
-import { StyleSheet, Text, View, TextInput, Pressable, Dimensions } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, ScrollView, TextInput, Pressable, Dimensions } from 'react-native'
+import React, { useRef } from 'react'
+import RBSheet from 'react-native-raw-bottom-sheet'
+import Success from '../../assets/success';
+import { useNavigation } from '@react-navigation/native';
+import routes from '../../constants/routes';
 
 export default function Reset() {
-  return (
-    <View style={styles.container}>
-        <View>
-            <Text style={[styles.normaltext, styles.heading]}>Login to your account.</Text>
-            <Text style={[styles.subline]}>Please sign in to your account</Text>
-        </View>
-        <View>
+    const refScrollable = useRef();
+
+    const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
+    const onPressHandlerReset = () => {
+      navigation.replace(routes.LOGIN_STACK);
+    }; 
+
+    return (
+        <View style={styles.container}>
             <View>
-                <Text style={styles.normaltext}>Email Address</Text>
-                <TextInput style={styles.inputbox} placeholder='Enter Email' placeholderTextColor={'grey'} />
+                <Text style={[styles.normaltext, styles.heading]}>Reset Password</Text>
+                <Text style={[styles.subline]}>Your new password must be different from the previously used password</Text>
             </View>
-            {/* // */}
             <View>
-                <Text style={styles.normaltext}>Password</Text>
-                <TextInput style={styles.inputbox} placeholder='Enter Password' placeholderTextColor={'grey'} />
+                <View>
+                    <Text style={styles.normaltext}>New Password</Text>
+                    <TextInput style={styles.inputbox} placeholder='Enter Email' placeholderTextColor={'grey'} />
+                    <Text style={[styles.subline]}>Must be at least 8 character</Text>
+                </View>
+                {/* // */}
+                <View>
+                    <Text style={styles.normaltext}>Confirm Password</Text>
+                    <TextInput style={styles.inputbox} placeholder='Enter Password' placeholderTextColor={'grey'} />
+                    <Text style={[styles.subline]}>Both password must match</Text>
+                </View>
+                <Pressable style={styles.button} onPress={() => refScrollable.current.open()} >
+                    <Text>Sign In</Text>
+                </Pressable>
             </View>
-            <Text style={[styles.orangetext]}>Forgot password?</Text>
-            <Pressable style={styles.button} onPress={()=>{}} >
-                <Text>Sign In</Text>
-            </Pressable>
-            <View  style={styles.signwith}>
-                <View style={styles.dash}></View>
-                <Text  style={styles.normaltext}>Or sign in with</Text>
-                <View style={styles.dash}></View>
-            </View>
-            <View style={styles.signwith}>
-                <Text style={styles.normaltext}>Don't have an account? </Text>
-                <Text style={styles.orangetext}>Register</Text>
-            </View>
-            
+            <RBSheet
+                ref={refScrollable}
+                height={460}
+                draggable
+                closeOnPressMask={false}
+                customModalProps={{
+                    animationType: 'slide',
+                    statusBarTranslucent: true,
+                }}
+                customStyles={{
+                    wrapper: {
+
+                    },
+                    container: {
+                        borderTopLeftRadius: 20,
+                        borderTopRightRadius: 20,
+                    },
+                    draggableIcon: {
+                        width: 80,
+                    },
+                }}>
+                <View style={{ flexDirection: 'column', alignItems: 'center' }}>
+                    <View style={styles.topspace}></View>
+                    <Success />
+                    <View>
+                        <Text style={[styles.text, styles.headingR]}>Login Successful</Text>
+                        <Text style={[styles.text, styles.sublineR]}>An event has been created and the invite has been sent to you on mail.</Text>
+                    </View>
+                    <Pressable style={styles.buttonR} onPress={onPressHandlerReset}>
+                        <Text style={{ textAlign: 'center' }}>Go to Login</Text>
+                    </Pressable>
+                </View>
+            </RBSheet>
         </View>
-    </View>
-  )
+    )
 }
 
 const styles = StyleSheet.create({
@@ -88,7 +124,30 @@ const styles = StyleSheet.create({
     button: {
         paddingVertical: 20,
         backgroundColor: 'orange',
-        borderRadius: 50
+        borderRadius: 50,
+    },
+    buttonR: {
+        paddingVertical: 20,
+        backgroundColor: 'orange',
+        borderRadius: 50,
+        width: '85%',
+        marginVertical: 35
+    },
+    headingR: {
+        fontSize: 30,
+        fontWeight: '500',
+        paddingVertical: 20
+    },
+    sublineR: {
+        paddingHorizontal: 20,
+        color:'grey'
+    },
+    text: {
+        color: 'black',
+        textAlign: 'center'
+    },
+    topspace: {
+        paddingVertical: 20
     }
 
 })

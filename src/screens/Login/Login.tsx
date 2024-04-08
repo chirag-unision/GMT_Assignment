@@ -1,12 +1,31 @@
 import { StyleSheet, Text, View, Dimensions, Pressable, TextInput } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import axios from 'axios';
 import GoogleIcon from '../../assets/google_logo';
+import { useNavigation } from '@react-navigation/native';
+import routes from '../../constants/routes';
 
 export default function Login() {
     const [error, setError] = React.useState('');
 	const [loading, setLoading] = React.useState(false);
+
+    const [email, setEmail]= useState('');
+    const [password, setPassword]= useState('');
+
+    const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
+    const onPressHandlerSignup = () => {
+      navigation.replace(routes.SIGNUP);
+    };  
+
+    const onPressHandlerLogin = () => {
+      navigation.replace(routes.LOGIN_SUCCESS);
+    };  
+
+    const onPressHandlerReset = () => {
+      navigation.push(routes.RESET_STACK);
+    };  
 
     GoogleSignin.configure({
         webClientId: '689329845646-p41j4fsloj8atc83dsvou65du2ju3fn4.apps.googleusercontent.com',
@@ -43,13 +62,11 @@ export default function Login() {
 		}
 	};
 
-    const signOut = async () => {
-        try {
-          await GoogleSignin.signOut();
-        } catch (error) {
-          console.error(error);
-        }
-      };
+    const handleLogin = () => {
+        if(email!='' && password!='')
+        onPressHandlerLogin();
+        
+    }
 
       const createCalendarEvent = async (accessToken) => {
         try {
@@ -88,28 +105,40 @@ export default function Login() {
         <View>
             <View>
                 <Text style={styles.normaltext}>Email Address</Text>
-                <TextInput style={styles.inputbox} placeholder='Enter Email' placeholderTextColor={'grey'} />
+                <TextInput 
+                style={styles.inputbox} 
+                placeholder='Enter Email' 
+                placeholderTextColor={'grey'} 
+                onChangeText={setEmail} 
+                />
             </View>
             {/* // */}
             <View>
                 <Text style={styles.normaltext}>Password</Text>
-                <TextInput style={styles.inputbox} placeholder='Enter Password' placeholderTextColor={'grey'} />
+                <TextInput 
+                style={styles.inputbox} 
+                placeholder='Enter Password' 
+                placeholderTextColor={'grey'} 
+                onChangeText={setPassword} 
+                />
             </View>
-            <Text style={[styles.orangetext]}>Forgot password?</Text>
-            <Pressable style={styles.button} onPress={handleGoogleLogin} >
-                <Text>Sign In</Text>
+            <Pressable onPress={onPressHandlerReset}><Text style={[styles.orangetext]}>Forgot password?</Text></Pressable>
+            <Pressable style={styles.button} onPress={handleLogin}>
+                <Text style={{textAlign: 'center'}}>Sign In</Text>
             </Pressable>
             <View  style={styles.signwith}>
                 <View style={styles.dash}></View>
                 <Text  style={styles.normaltext}>Or sign in with</Text>
                 <View style={styles.dash}></View>
             </View>
-            <View>
+            <Pressable onPress={handleGoogleLogin}>
                 <GoogleIcon width={60} height={80} />
-            </View>
-            <View style={styles.signwith}>
-                <Text style={styles.normaltext}>Don't have an account? </Text>
-                <Text style={styles.orangetext}>Register</Text>
+            </Pressable>
+            <View>
+                <Pressable onPress={onPressHandlerSignup} style={styles.signwith}>
+                    <Text style={styles.normaltext}>Don't have an account? </Text>
+                    <Text style={styles.orangetext}>Register</Text>
+                </Pressable>
             </View>
             
         </View>

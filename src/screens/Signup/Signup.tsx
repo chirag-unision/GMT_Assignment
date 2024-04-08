@@ -1,8 +1,20 @@
 import { StyleSheet, Text, View, Dimensions, Pressable, TextInput } from 'react-native'
 import React from 'react'
 import GoogleIcon from '../../assets/google_logo';
+import { useNavigation } from '@react-navigation/native';
+import routes from '../../constants/routes';
 
 export default function Signup() {
+    const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
+    const onPressHandlerLogin = () => {
+      navigation.replace(routes.LOGIN);
+    }; 
+
+    const onPressHandlerSignup = () => {
+      navigation.replace(routes.LOGIN_SUCCESS);
+    }; 
+
     return (
         <View style={styles.container}>
             <View>
@@ -25,7 +37,7 @@ export default function Signup() {
                     <TextInput style={styles.inputbox} placeholder='Enter Password' placeholderTextColor={'grey'} />
                 </View>
                 <Text style={[styles.orangetext]}>I Agree with Terms of Service and Privacy Policy</Text>
-                <Pressable style={styles.button} onPress={()=>{}} >
+                <Pressable style={styles.button} onPress={onPressHandlerSignup} >
                     <Text>Register</Text>
                 </Pressable>
                 <View  style={styles.signwith}>
@@ -36,9 +48,11 @@ export default function Signup() {
                 <View>
                     <GoogleIcon width={60} height={80} />
                 </View>
-                <View style={styles.signwith}>
-                    <Text style={styles.text}>Don't have an account? </Text>
-                    <Text style={styles.orangetext}>Register</Text>
+                <View>
+                    <Pressable onPress={onPressHandlerLogin} style={styles.signwith}>
+                        <Text style={styles.text}>Have an account? </Text>
+                        <Text style={styles.orangetext}>Sign In</Text>
+                    </Pressable>
                 </View>
                 
             </View>

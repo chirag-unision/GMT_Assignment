@@ -25,14 +25,17 @@ import OnBoardingSecond from './src/screens/Onboarding/Second';
 import OnBoardingThird from './src/screens/Onboarding/Third';
 import Forget from './src/screens/ForgetPassword/Forget';
 import Otp from './src/screens/ForgetPassword/Otp';
+import Reset from './src/screens/ForgetPassword/Reset';
+import OnBoardingStack from './src/screens/Navigation/OnboardingStack';
+import { NavigationContainer } from '@react-navigation/native';
 
 
 function App(): React.JSX.Element {
 
   return (
-    <SafeAreaView>
-      <Otp />
-    </SafeAreaView>
+    <NavigationContainer>
+      <OnBoardingStack />
+    </NavigationContainer>
   );
 }
 

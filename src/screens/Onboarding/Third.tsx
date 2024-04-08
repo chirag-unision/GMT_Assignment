@@ -1,4 +1,4 @@
-// import {useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {
   Text,
   StyleSheet,
@@ -8,13 +8,13 @@ import {
   Dimensions,
 } from 'react-native';
 import Routes from '../../constants/routes';
-import React from 'react';
+import React, { useState } from 'react';
 
 const OnBoardingThird = () => {
-  // const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const onPressHandler = () => {
-    navigation.replace(Routes.ON_BOARD_SCREEN_2);
+    navigation.replace(Routes.LOGIN_STACK);
   };
 
   return (
@@ -32,12 +32,12 @@ const OnBoardingThird = () => {
         <Text style={styles.text}>We serve incomparable delicacies</Text>
         <Text style={styles.subline}>All the best restaurants with their top menu waiting for you, they cant’t wait for your order!!</Text>
         <View style={styles.dashview}>
+          <View style={[styles.dash, {backgroundColor: 'grey'}]}></View>
+          <View style={[styles.dash, {backgroundColor: 'grey'}]}></View>
           <View style={[styles.dash, {backgroundColor: 'white'}]}></View>
-          <View style={[styles.dash, {backgroundColor: 'grey'}]}></View>
-          <View style={[styles.dash, {backgroundColor: 'grey'}]}></View>
         </View>
         <View style={[{flexDirection: 'row', justifyContent: 'center', width: '100%', position: 'absolute', bottom: 35}]}>
-          <Text style={styles.fbutton}>{'->'}</Text>
+          <Pressable onPress={onPressHandler}><Text style={styles.fbutton}>{'->'}</Text></Pressable>
         </View>
       </View>
     </View>

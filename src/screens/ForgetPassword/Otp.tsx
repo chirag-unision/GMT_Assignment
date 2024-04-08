@@ -1,7 +1,15 @@
 import { StyleSheet, Text, View, TextInput, Pressable, Dimensions } from 'react-native'
 import React from 'react'
+import OTPInputView from '@twotalltotems/react-native-otp-input'
+import { useNavigation } from '@react-navigation/native';
+import routes from '../../constants/routes';
 
 export default function Otp() {
+    const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
+    const onPressHandlerContinue = () => {
+      navigation.replace(routes.RESET);
+    }; 
   return (
     <View style={styles.container}>
         <View>
@@ -10,27 +18,29 @@ export default function Otp() {
         </View>
         <View>
             <View>
-                <Text style={styles.normaltext}>Email Address</Text>
-                <TextInput style={styles.inputbox} placeholder='Enter Email' placeholderTextColor={'grey'} />
-            </View>
-            {/* // */}
-            <View>
-                <Text style={styles.normaltext}>Password</Text>
-                <TextInput style={styles.inputbox} placeholder='Enter Password' placeholderTextColor={'grey'} />
-            </View>
-            <Text style={[styles.orangetext]}>Forgot password?</Text>
-            <Pressable style={styles.button} onPress={()=>{}} >
-                <Text>Sign In</Text>
-            </Pressable>
-            <View  style={styles.signwith}>
-                <View style={styles.dash}></View>
-                <Text  style={styles.normaltext}>Or sign in with</Text>
-                <View style={styles.dash}></View>
+            <OTPInputView
+                style={{width: '80%', height: 200}}
+                pinCount={4}
+                // code={this.state.code} //You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
+                // onCodeChanged = {code => { this.setState({code})}}
+                autoFocusOnLoad
+                codeInputFieldStyle={styles.underlineStyleBase}
+                codeInputHighlightStyle={styles.underlineStyleHighLighted}
+                onCodeFilled = {(code => {
+                    console.log(`Code is ${code}, you are good to go!`)
+                })}
+            />
             </View>
             <View style={styles.signwith}>
-                <Text style={styles.normaltext}>Don't have an account? </Text>
-                <Text style={styles.orangetext}>Register</Text>
+                <Text style={styles.normaltext}>Didn't receive code? </Text>
+                <Text style={styles.orangetext}>Resend</Text>
             </View>
+            <View  style={styles.signwith}>
+                <Text  style={styles.normaltext}>Or sign in with</Text>
+            </View>
+            <Pressable style={styles.button} onPress={onPressHandlerContinue} >
+                <Text>Continue</Text>
+            </Pressable>
             
         </View>
     </View>
@@ -89,6 +99,35 @@ const styles = StyleSheet.create({
         paddingVertical: 20,
         backgroundColor: 'orange',
         borderRadius: 50
-    }
+    },
+    textInputContainer: {
+        marginBottom: 20,
+      },
+      roundedTextInput: {
+        borderRadius: 10,
+        borderWidth: 4,
+      },
+
+
+
+      borderStyleBase: {
+        width: 30,
+        height: 45
+      },
+    
+      borderStyleHighLighted: {
+        borderColor: "#03DAC6",
+      },
+    
+      underlineStyleBase: {
+        width: 40,
+        height: 45,
+        borderWidth: 1,
+        borderRadius: 10
+      },
+    
+      underlineStyleHighLighted: {
+        borderColor: "#000",
+      }
 
 })

@@ -1,4 +1,4 @@
-// import {useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {
   Text,
   StyleSheet,
@@ -11,7 +11,7 @@ import Routes from '../../constants/routes';
 import React from 'react';
 
 const OnBoardingFirst = () => {
-  // const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const onPressHandler = () => {
     navigation.replace(Routes.ON_BOARD_SCREEN_2);
@@ -38,7 +38,9 @@ const OnBoardingFirst = () => {
         </View>
         <View style={[{flexDirection: 'row', justifyContent: 'space-between', width: '100%', position: 'absolute', bottom: 35}]}>
           <Text>{'Skip'}</Text>
-          <Text>{'Next ->'}</Text>
+          <Pressable onPress={onPressHandler} >
+            <Text>{'Next ->'}</Text>
+          </Pressable>
         </View>
       </View>
     </View>
@@ -52,6 +54,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#1B1B1B',
     alignItems: 'center',
+    height: Dimensions.get('screen').height,
+    width: '100%'
   },
   secondContainer: {
     position: 'absolute',

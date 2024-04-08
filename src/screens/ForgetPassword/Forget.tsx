@@ -1,7 +1,14 @@
 import { StyleSheet, Text, View, TextInput, Pressable, Dimensions } from 'react-native'
 import React from 'react'
+import { useNavigation } from '@react-navigation/native';
+import routes from '../../constants/routes';
 
 export default function Forget() {
+    const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
+    const onPressHandlerOtp = () => {
+      navigation.replace(routes.OTP);
+    }; 
   return (
     <View style={styles.container}>
         <View>
@@ -13,7 +20,7 @@ export default function Forget() {
                 <Text style={styles.normaltext}>Email Address</Text>
                 <TextInput style={styles.inputbox} placeholder='Enter Email' placeholderTextColor={'grey'} />
             </View>
-            <Pressable style={styles.button} onPress={()=>{}} >
+            <Pressable style={styles.button} onPress={onPressHandlerOtp} >
                 <Text>Sign In</Text>
             </Pressable>
             
