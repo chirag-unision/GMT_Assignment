@@ -1,9 +1,11 @@
-import { StyleSheet, Text, View, ScrollView, TextInput, Pressable, Dimensions } from 'react-native'
+import { StyleSheet, Text, View, Dimensions } from 'react-native'
 import React, { useRef } from 'react'
 import RBSheet from 'react-native-raw-bottom-sheet'
 import Success from '../../assets/success';
 import { useNavigation } from '@react-navigation/native';
 import routes from '../../constants/routes';
+import Button from '../../components/common/Button';
+import TextField from '../../components/common/TextField';
 
 export default function Reset() {
     const refScrollable = useRef();
@@ -20,21 +22,19 @@ export default function Reset() {
                 <Text style={[styles.normaltext, styles.heading]}>Reset Password</Text>
                 <Text style={[styles.subline]}>Your new password must be different from the previously used password</Text>
             </View>
-            <View>
+            <View style={{flex: 1}}>
                 <View>
-                    <Text style={styles.normaltext}>New Password</Text>
-                    <TextInput style={styles.inputbox} placeholder='Enter Email' placeholderTextColor={'grey'} />
+                    <TextField title={'New Password'} placeholder={'Enter Password'} />
                     <Text style={[styles.subline]}>Must be at least 8 character</Text>
                 </View>
                 {/* // */}
                 <View>
-                    <Text style={styles.normaltext}>Confirm Password</Text>
-                    <TextInput style={styles.inputbox} placeholder='Enter Password' placeholderTextColor={'grey'} />
+                    <TextField title={'Confirm Password'} placeholder={'Enter Password'} />
                     <Text style={[styles.subline]}>Both password must match</Text>
                 </View>
-                <Pressable style={styles.button} onPress={() => refScrollable.current.open()} >
-                    <Text>Sign In</Text>
-                </Pressable>
+                <View style={styles.buttonBox}>
+                    <Button title={'Continue'} handlePress={() => refScrollable.current.open()} />
+                </View>
             </View>
             <RBSheet
                 ref={refScrollable}
@@ -61,12 +61,12 @@ export default function Reset() {
                     <View style={styles.topspace}></View>
                     <Success />
                     <View>
-                        <Text style={[styles.text, styles.headingR]}>Login Successful</Text>
-                        <Text style={[styles.text, styles.sublineR]}>An event has been created and the invite has been sent to you on mail.</Text>
+                        <Text style={[styles.text, styles.headingR]}>Password Changed</Text>
+                        <Text style={[styles.text, styles.sublineR]}>Password changed successfully, you can login again with a new password</Text>
                     </View>
-                    <Pressable style={styles.buttonR} onPress={onPressHandlerReset}>
-                        <Text style={{ textAlign: 'center' }}>Go to Login</Text>
-                    </Pressable>
+                    <View style={styles.buttonR}>
+                        <Button title={'Go To Login'} handlePress={onPressHandlerReset} />
+                    </View>
                 </View>
             </RBSheet>
         </View>
@@ -95,41 +95,17 @@ const styles = StyleSheet.create({
         fontWeight: "400",
         paddingVertical: 20
     },
-    inputbox: {
-        borderColor: 'grey',
-        borderWidth: 1,
-        borderRadius: 5,
-        marginTop: 10,
-        marginBottom: 20,
-        paddingHorizontal: 10
-    },
-    dash: {
-        width: '30%',
-        height: 2,
-        backgroundColor: 'grey'
-    },
-    signwith: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 20
-    },
     container: {
-        // justifyContent: 'center',
-        // alignItems: 'center',
         backgroundColor: 'white',
         height: Dimensions.get('screen').height,
         padding: 20
     },
-    button: {
-        paddingVertical: 20,
-        backgroundColor: 'orange',
-        borderRadius: 50,
+    buttonBox: {
+        position: 'absolute',
+        bottom: 10,
+        width: '100%',
     },
     buttonR: {
-        paddingVertical: 20,
-        backgroundColor: 'orange',
-        borderRadius: 50,
         width: '85%',
         marginVertical: 35
     },

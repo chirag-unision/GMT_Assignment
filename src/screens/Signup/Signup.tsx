@@ -1,10 +1,16 @@
-import { StyleSheet, Text, View, Dimensions, Pressable, TextInput } from 'react-native'
-import React from 'react'
-import GoogleIcon from '../../assets/google_logo';
+import { StyleSheet, Text, View, Dimensions, Pressable } from 'react-native'
+import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import routes from '../../constants/routes';
+import Button from '../../components/common/Button';
+import TextField from '../../components/common/TextField';
+import GoogleLogin from '../../components/login/GoogleLogin';
 
 export default function Signup() {
+    const [email, setEmail]= useState('');
+    const [password, setPassword]= useState('');
+    const [username, setUsername]= useState('');
+
     const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
     const onPressHandlerLogin = () => {
@@ -22,32 +28,12 @@ export default function Signup() {
                 <Text style={[styles.subline]}>Create an account to start looking for the food you like</Text>
             </View>
             <View>
-                <View>
-                    <Text style={styles.text}>Email Address</Text>
-                    <TextInput style={styles.inputbox} placeholder='Enter Email' placeholderTextColor={'grey'} />
-                </View>
-                {/* // */}
-                <View>
-                    <Text style={styles.text}>User Name</Text>
-                    <TextInput style={styles.inputbox} placeholder='Enter Email' placeholderTextColor={'grey'} />
-                </View>
-                {/* // */}
-                <View>
-                    <Text style={styles.text}>Password</Text>
-                    <TextInput style={styles.inputbox} placeholder='Enter Password' placeholderTextColor={'grey'} />
-                </View>
+                <TextField title={'Email Address'} placeholder={'Enter Email'} handleChange={setEmail} />
+                <TextField title={'User Name'} placeholder={'Enter Username'} handleChange={setUsername} />
+                <TextField title={'Password'} placeholder={'Enter Password'} handleChange={setPassword} />
                 <Text style={[styles.orangetext]}>I Agree with Terms of Service and Privacy Policy</Text>
-                <Pressable style={styles.button} onPress={onPressHandlerSignup} >
-                    <Text>Register</Text>
-                </Pressable>
-                <View  style={styles.signwith}>
-                    <View style={styles.dash}></View>
-                    <Text  style={styles.text}>Or sign in with</Text>
-                    <View style={styles.dash}></View>
-                </View>
-                <View>
-                    <GoogleIcon width={60} height={80} />
-                </View>
+                <Button handlePress={onPressHandlerSignup} title={'Register'} />
+                <GoogleLogin />
                 <View>
                     <Pressable onPress={onPressHandlerLogin} style={styles.signwith}>
                         <Text style={styles.text}>Have an account? </Text>
@@ -82,19 +68,6 @@ export default function Signup() {
             fontWeight: "400",
             paddingVertical: 20
         },
-        inputbox: {
-            borderColor: 'grey',
-            borderWidth: 1,
-            borderRadius: 5,
-            marginTop: 10,
-            marginBottom: 20,
-            paddingHorizontal: 10
-        },
-        dash: {
-            width: '30%',
-            height: 2,
-            backgroundColor: 'grey'
-        },
         signwith: {
             flexDirection: 'row',
             alignItems: 'center',
@@ -102,16 +75,9 @@ export default function Signup() {
             paddingVertical: 20
         },
         container: {
-            // justifyContent: 'center',
-            // alignItems: 'center',
             backgroundColor: 'white',
             height: Dimensions.get('screen').height,
             padding: 20
         },
-        button: {
-            paddingVertical: 20,
-            backgroundColor: 'orange',
-            borderRadius: 50
-        }
     
     })

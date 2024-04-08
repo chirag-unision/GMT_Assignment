@@ -1,9 +1,12 @@
-import { StyleSheet, Text, View, TextInput, Pressable, Dimensions } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, Pressable, Dimensions } from 'react-native'
+import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import routes from '../../constants/routes';
+import TextField from '../../components/common/TextField';
+import Button from '../../components/common/Button';
 
 export default function Forget() {
+    const [email, setEmail]= useState('');
     const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
     const onPressHandlerOtp = () => {
@@ -15,14 +18,11 @@ export default function Forget() {
             <Text style={[styles.normaltext, styles.heading]}>Forgot Password?</Text>
             <Text style={[styles.subline]}>Enter your email address and we’ll send you confirmation code to reset your password</Text>
         </View>
-        <View>
-            <View>
-                <Text style={styles.normaltext}>Email Address</Text>
-                <TextInput style={styles.inputbox} placeholder='Enter Email' placeholderTextColor={'grey'} />
+        <View style={{flex: 1}}>
+            <TextField title={'Email Address'} placeholder={'Enter Email'} handleChange={setEmail} />
+            <View style={styles.buttonBox}>
+                <Button title={'Continue'} handlePress={onPressHandlerOtp} />
             </View>
-            <Pressable style={styles.button} onPress={onPressHandlerOtp} >
-                <Text>Sign In</Text>
-            </Pressable>
             
         </View>
     </View>
@@ -51,36 +51,15 @@ const styles = StyleSheet.create({
         fontWeight: "400",
         paddingVertical: 20
     },
-    inputbox: {
-        borderColor: 'grey',
-        borderWidth: 1,
-        borderRadius: 5,
-        marginTop: 10,
-        marginBottom: 20,
-        paddingHorizontal: 10
-    },
-    dash: {
-        width: '30%',
-        height: 2,
-        backgroundColor: 'grey'
-    },
-    signwith: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 20
-    },
     container: {
-        // justifyContent: 'center',
-        // alignItems: 'center',
         backgroundColor: 'white',
-        height: Dimensions.get('screen').height,
+        height: '100%',
         padding: 20
     },
-    button: {
-        paddingVertical: 20,
-        backgroundColor: 'orange',
-        borderRadius: 50
+    buttonBox: {
+        position: 'absolute',
+        bottom: 10,
+        width: '100%',
     }
 
 })

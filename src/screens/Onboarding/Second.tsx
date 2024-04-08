@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import Routes from '../../constants/routes';
 import React from 'react';
+import ArrowRight from '../../assets/arrow_right';
 
 const OnBoardingSecond = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -32,14 +33,15 @@ const OnBoardingSecond = () => {
         <Text style={styles.text}>We serve incomparable delicacies</Text>
         <Text style={styles.subline}>All the best restaurants with their top menu waiting for you, they cant’t wait for your order!!</Text>
         <View style={styles.dashview}>
-          <View style={[styles.dash, {backgroundColor: 'grey'}]}></View>
+          <View style={[styles.dash, {backgroundColor: '#C2C2C2'}]}></View>
           <View style={[styles.dash, {backgroundColor: 'white'}]}></View>
-          <View style={[styles.dash, {backgroundColor: 'grey'}]}></View>
+          <View style={[styles.dash, {backgroundColor: '#C2C2C2'}]}></View>
         </View>
         <View style={[{flexDirection: 'row', justifyContent: 'space-between', width: '100%', position: 'absolute', bottom: 35}]}>
-          <Text>{'Skip'}</Text>
-          <Pressable onPress={onPressHandler}>
-            <Text>{'Next ->'}</Text>
+          <Text style={{fontSize: 15, color: 'white'}}>{'Skip'}</Text>
+          <Pressable onPress={onPressHandler} style={styles.next}>
+            <Text style={{fontSize: 15, color: 'white'}}>{'Next'}</Text>
+            <ArrowRight color={'#FFFFFF'} />
           </Pressable>
         </View>
       </View>
@@ -54,30 +56,37 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#1B1B1B',
     alignItems: 'center',
+    height: Dimensions.get('screen').height,
+    width: '100%'
   },
   secondContainer: {
     position: 'absolute',
-    backgroundColor: 'orange',
-    justifyContent: 'center',
+    backgroundColor: '#FE8C00',
+    // justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: '10%',
     width: 280,
     height: 400,
-    borderRadius: 60,
-    top: 400
+    borderRadius: 50,
+    bottom: 40
   },
   text: {
     fontSize: 30,
     textAlign: 'center',
-    fontWeight: '500'
+    fontWeight: '500',
+    marginTop: 25,
+    color: 'white'
   },
   subline: {
-    fontSize: 15,
+    fontSize: 13,
     paddingVertical: 10,
+    color: 'white',
+    textAlign: 'center'
 
   },
   dashview: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    marginTop: 10
   },
   dash: {
     width: 25,
@@ -85,4 +94,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     margin: 2
   },
+  next: {
+    flexDirection: 'row',
+  }
 });

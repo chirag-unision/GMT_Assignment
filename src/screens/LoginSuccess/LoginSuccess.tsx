@@ -1,10 +1,11 @@
-import { StyleSheet, Text, View, ScrollView, Image, Button, Pressable } from 'react-native'
+import { StyleSheet, Text, View, Image, Pressable, Dimensions } from 'react-native'
 import React, { useEffect, useRef } from 'react'
 import RBSheet from 'react-native-raw-bottom-sheet';
 import Success from '../../assets/success';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { useNavigation } from '@react-navigation/native';
 import routes from '../../constants/routes';
+import Button from '../../components/common/Button';
 
 export default function LoginSuccess() {
     const refScrollable = useRef();
@@ -30,7 +31,15 @@ export default function LoginSuccess() {
 
     return (
         <View>
-            <Image style={{position: 'absolute'}} source={require('../../assets/bg1.png')} />
+            <Image
+                source={require('../../assets/bg1.png')}
+                style={{
+                width: '100%',
+                height: Dimensions.get('window').height,
+                position: 'absolute',
+                zIndex: -10
+                }}
+            />
       <RBSheet
         ref={refScrollable}
         height={460}
@@ -59,9 +68,9 @@ export default function LoginSuccess() {
                 <Text style={[styles.text, styles.heading]}>Login Successful</Text>
                 <Text style={[styles.text, styles.subline]}>An event has been created and the invite has been sent to you on mail.</Text>
             </View>
-            <Pressable style={styles.button} onPress={signOut}>
-                <Text style={{textAlign: 'center'}}>Logout</Text>
-            </Pressable>
+            <View style={styles.buttonR}>
+                <Button title={'Logout'} handlePress={signOut} />
+            </View>
         </View>
       </RBSheet>
         </View>
@@ -69,10 +78,7 @@ export default function LoginSuccess() {
 }
 
 const styles = StyleSheet.create({
-    button: {
-        paddingVertical: 20,
-        backgroundColor: 'orange',
-        borderRadius: 50,
+    buttonR: {
         width: '85%',
         marginVertical: 35
     },

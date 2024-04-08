@@ -3,6 +3,7 @@ import React from 'react'
 import OTPInputView from '@twotalltotems/react-native-otp-input'
 import { useNavigation } from '@react-navigation/native';
 import routes from '../../constants/routes';
+import Button from '../../components/common/Button';
 
 export default function Otp() {
     const navigation = useNavigation<NativeStackNavigationProp<any>>();
@@ -16,10 +17,10 @@ export default function Otp() {
             <Text style={[styles.normaltext, styles.heading]}>Email Verification</Text>
             <Text style={[styles.subline]}>Enter the verification code we send you on: Alberts******@gmail.com|</Text>
         </View>
-        <View>
+        <View style={{flex: 1}}>
             <View>
             <OTPInputView
-                style={{width: '80%', height: 200}}
+                style={{width: '80%', marginHorizontal: '10%', height: 100}}
                 pinCount={4}
                 // code={this.state.code} //You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
                 // onCodeChanged = {code => { this.setState({code})}}
@@ -36,11 +37,11 @@ export default function Otp() {
                 <Text style={styles.orangetext}>Resend</Text>
             </View>
             <View  style={styles.signwith}>
-                <Text  style={styles.normaltext}>Or sign in with</Text>
+                <Text  style={styles.normaltext}>06:00</Text>
             </View>
-            <Pressable style={styles.button} onPress={onPressHandlerContinue} >
-                <Text>Continue</Text>
-            </Pressable>
+            <View style={styles.buttonBox}>
+                <Button title={'Continue'} handlePress={onPressHandlerContinue} />
+            </View>
             
         </View>
     </View>
@@ -89,24 +90,22 @@ const styles = StyleSheet.create({
         paddingVertical: 20
     },
     container: {
-        // justifyContent: 'center',
-        // alignItems: 'center',
         backgroundColor: 'white',
-        height: Dimensions.get('screen').height,
+        height: '100%',
         padding: 20
-    },
-    button: {
-        paddingVertical: 20,
-        backgroundColor: 'orange',
-        borderRadius: 50
     },
     textInputContainer: {
         marginBottom: 20,
-      },
-      roundedTextInput: {
+    },
+    roundedTextInput: {
         borderRadius: 10,
         borderWidth: 4,
-      },
+    },
+    buttonBox: {
+        position: 'absolute',
+        bottom: 10,
+        width: '100%',
+    },
 
 
 
@@ -120,10 +119,12 @@ const styles = StyleSheet.create({
       },
     
       underlineStyleBase: {
-        width: 40,
-        height: 45,
+        width: 60,
+        height: 65,
         borderWidth: 1,
-        borderRadius: 10
+        borderRadius: 10,
+        fontSize: 20,
+        color: '#000'
       },
     
       underlineStyleHighLighted: {
