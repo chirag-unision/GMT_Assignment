@@ -4,14 +4,31 @@ import { useNavigation } from '@react-navigation/native';
 import routes from '../../constants/routes';
 import TextField from '../../components/common/TextField';
 import Button from '../../components/common/Button';
+import axios from 'axios';
+import apis from '../../constants/apis';
 
 export default function Forget() {
     const [email, setEmail]= useState('');
     const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-    const onPressHandlerOtp = () => {
-      navigation.replace(routes.OTP);
+    const onPressHandlerOtp = (pid: String) => {
+      navigation.replace(routes.OTP, { pid });
     }; 
+
+    const handleEmailVerification = () => {
+        if(email!='') {
+            axios.post(apis.BASE_URL+'auth/sendOtp', {
+                email: email
+            })
+            .then(response => {
+                console.log(response.data.message);
+                onPressHandlerOtp(response.data.pid);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+        } 
+    }
   return (
     <View style={styles.container}>
         <View>
@@ -21,7 +38,7 @@ export default function Forget() {
         <View style={{flex: 1}}>
             <TextField title={'Email Address'} placeholder={'Enter Email'} handleChange={setEmail} />
             <View style={styles.buttonBox}>
-                <Button title={'Continue'} handlePress={onPressHandlerOtp} />
+                <Button title={'Continue'} handlePress={handleEmailVerification} />
             </View>
             
         </View>

@@ -5,6 +5,8 @@ import routes from '../../constants/routes';
 import Button from '../../components/common/Button';
 import TextField from '../../components/common/TextField';
 import GoogleLogin from '../../components/login/GoogleLogin';
+import axios from 'axios';
+import apis from '../../constants/apis';
 
 export default function Signup() {
     const [email, setEmail]= useState('');
@@ -21,6 +23,23 @@ export default function Signup() {
       navigation.replace(routes.LOGIN_SUCCESS);
     }; 
 
+    const handleSignup = () => {
+        if(username!='' && email!='' && password!='') {
+            axios.post(apis.BASE_URL+'auth/signup', {
+                email: email,
+                username: username,
+                password: password
+            })
+            .then(response => {
+                console.log(response);
+                onPressHandlerSignup();
+            })
+            .catch(error => {
+                console.log(error);
+            })
+        }   
+    }
+
     return (
         <View style={styles.container}>
             <View>
@@ -32,7 +51,7 @@ export default function Signup() {
                 <TextField title={'User Name'} placeholder={'Enter Username'} handleChange={setUsername} />
                 <TextField title={'Password'} placeholder={'Enter Password'} handleChange={setPassword} />
                 <Text style={[styles.orangetext]}>I Agree with Terms of Service and Privacy Policy</Text>
-                <Button handlePress={onPressHandlerSignup} title={'Register'} />
+                <Button handlePress={handleSignup} title={'Register'} />
                 <GoogleLogin />
                 <View>
                     <Pressable onPress={onPressHandlerLogin} style={styles.signwith}>

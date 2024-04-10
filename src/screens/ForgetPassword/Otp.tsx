@@ -1,16 +1,36 @@
 import { StyleSheet, Text, View, TextInput, Pressable, Dimensions } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import OTPInputView from '@twotalltotems/react-native-otp-input'
 import { useNavigation } from '@react-navigation/native';
 import routes from '../../constants/routes';
 import Button from '../../components/common/Button';
+import axios from 'axios';
+import apis from '../../constants/apis';
 
-export default function Otp() {
+export default function Otp({route}:any) {
+    const [code, setCode]= useState('');
+    const { pid } = route.params;
     const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
-    const onPressHandlerContinue = () => {
-      navigation.replace(routes.RESET);
+    const onPressHandlerContinue = (uid: String) => {
+      navigation.replace(routes.RESET, {uid});
     }; 
+    console.log('pid: '+pid);
+    const handleOtpVerification = () => {
+        if(code!='') {
+            axios.post(apis.BASE_URL+'auth/verifyOtp', {
+                pid: pid,
+                otp: code
+            })
+            .then(response => {
+                console.log(response.data.message);
+                onPressHandlerContinue(response.data.user.uid)
+            })
+            .catch(error => {
+                console.log(error);
+            })
+        } 
+    }
   return (
     <View style={styles.container}>
         <View>
@@ -28,6 +48,7 @@ export default function Otp() {
                 codeInputFieldStyle={styles.underlineStyleBase}
                 codeInputHighlightStyle={styles.underlineStyleHighLighted}
                 onCodeFilled = {(code => {
+                    setCode(code);
                     console.log(`Code is ${code}, you are good to go!`)
                 })}
             />
@@ -40,7 +61,7 @@ export default function Otp() {
                 <Text  style={styles.normaltext}>06:00</Text>
             </View>
             <View style={styles.buttonBox}>
-                <Button title={'Continue'} handlePress={onPressHandlerContinue} />
+                <Button title={'Continue'} handlePress={handleOtpVerification} />
             </View>
             
         </View>

@@ -6,6 +6,7 @@ import routes from '../../constants/routes';
 import Button from '../../components/common/Button';
 import TextField from '../../components/common/TextField';
 import GoogleLogin from '../../components/login/GoogleLogin';
+import apis from '../../constants/apis';
 
 export default function Login() {
     const [error, setError] = React.useState('');
@@ -29,9 +30,19 @@ export default function Login() {
     };  
 
     const handleLogin = () => {
-        if(email!='' && password!='')
-        onPressHandlerLogin();
-        
+        if(email!='' && password!='') {
+            axios.post(apis.BASE_URL+'auth/login', {
+                email: email,
+                password: password
+            })
+            .then(response => {
+                console.log(response);
+                onPressHandlerLogin();
+            })
+            .catch(error => {
+                console.log(error);
+            })
+        }   
     }
 
     const createCalendarEvent = async (accessToken) => {
