@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, Pressable, Dimensions } from 'react-native'
+import { StyleSheet, Text, View, Pressable } from 'react-native'
 import React, { useState } from 'react'
 import OTPInputView from '@twotalltotems/react-native-otp-input'
 import { useNavigation } from '@react-navigation/native';

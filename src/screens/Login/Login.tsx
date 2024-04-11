@@ -7,7 +7,7 @@ import Button from '../../components/common/Button';
 import TextField from '../../components/common/TextField';
 import GoogleLogin from '../../components/login/GoogleLogin';
 import apis from '../../constants/apis';
-import { getData, storeData } from '../../util/storage';
+import { storeData } from '../../util/storage';
 import Password from '../../components/common/Password';
 import { setCalendar } from '../../util/auth';
 
