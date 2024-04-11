@@ -10,12 +10,18 @@ import {
 import Routes from '../../constants/routes';
 import React from 'react';
 import ArrowRight from '../../assets/arrow_right';
+import { storeData } from '../../util/storage';
 
 const OnBoardingFirst = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const onPressHandler = () => {
     navigation.replace(Routes.ON_BOARD_SCREEN_2);
+  };
+
+  const onPressHandlerSkip = () => {
+    storeData('onboarded', '1');
+    navigation.replace(Routes.LOGIN_STACK);
   };
 
   return (
@@ -38,7 +44,9 @@ const OnBoardingFirst = () => {
           <View style={[styles.dash, {backgroundColor: '#C2C2C2'}]}></View>
         </View>
         <View style={[{flexDirection: 'row', justifyContent: 'space-between', width: '100%', position: 'absolute', bottom: 35}]}>
-          <Text style={{fontSize: 15, color: 'white'}}>{'Skip'}</Text>
+          <Pressable onPress={onPressHandlerSkip} style={styles.next}>
+            <Text style={{fontSize: 15, color: 'white'}}>{'Skip'}</Text>
+          </Pressable>
           <Pressable onPress={onPressHandler} style={styles.next}>
             <Text style={{fontSize: 15, color: 'white'}}>{'Next'}</Text>
             <ArrowRight color={'#FFFFFF'} />

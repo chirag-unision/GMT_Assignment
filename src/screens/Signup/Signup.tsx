@@ -7,36 +7,52 @@ import TextField from '../../components/common/TextField';
 import GoogleLogin from '../../components/login/GoogleLogin';
 import axios from 'axios';
 import apis from '../../constants/apis';
+import { storeData } from '../../util/storage';
+import Password from '../../components/common/Password';
+import CheckBox from 'react-native-check-box';
+import { setCalendar } from '../../util/auth';
 
 export default function Signup() {
+    const [error, setError] = useState('');
     const [email, setEmail]= useState('');
     const [password, setPassword]= useState('');
     const [username, setUsername]= useState('');
+    const [check, setCheck]= useState(false);
 
     const navigation = useNavigation<NativeStackNavigationProp<any>>();
+    const emailCheck = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     const onPressHandlerLogin = () => {
       navigation.replace(routes.LOGIN);
     }; 
 
-    const onPressHandlerSignup = () => {
-      navigation.replace(routes.LOGIN_SUCCESS);
+    const onPressHandlerSignup = (email: String) => {
+      setCalendar(email);
+      navigation.replace(routes.MAIN_STACK);
     }; 
 
     const handleSignup = () => {
-        if(username!='' && email!='' && password!='') {
+        if(username!='' && email!='' && password!='' && check) {
+            if(emailCheck.test(email))
             axios.post(apis.BASE_URL+'auth/signup', {
-                email: email,
+                email: email.toLowerCase(),
                 username: username,
                 password: password
             })
             .then(response => {
                 console.log(response);
-                onPressHandlerSignup();
+                storeData('user', response.data.newUser.email).then(()=>{
+                    storeData('token', response.data.token).then(()=> {
+                        onPressHandlerSignup(response.data.newUser.email);
+                    })
+                })
             })
             .catch(error => {
                 console.log(error);
+                setError(error.response.data.message);
             })
+            else
+            setError('Invalid Email Address.');
         }   
     }
 
@@ -49,8 +65,24 @@ export default function Signup() {
             <View>
                 <TextField title={'Email Address'} placeholder={'Enter Email'} handleChange={setEmail} />
                 <TextField title={'User Name'} placeholder={'Enter Username'} handleChange={setUsername} />
-                <TextField title={'Password'} placeholder={'Enter Password'} handleChange={setPassword} />
-                <Text style={[styles.orangetext]}>I Agree with Terms of Service and Privacy Policy</Text>
+                <Password title={'Password'} placeholder={'Enter Password'} handleChange={setPassword} />
+                <View style={styles.checkbox}>
+                    <CheckBox
+                        style={{ paddingRight: 10 }}
+                        onClick={()=>{
+                            setCheck(!check)
+                        }}
+                        isChecked={check}
+                        checkedCheckBoxColor={'#FE8C00'}
+                    />
+                    <Text style={[styles.text]}>
+                        I Agree with 
+                        <Text style={styles.orangetext}> Terms of Service </Text> 
+                        and 
+                        <Text style={styles.orangetext}> Privacy Policy </Text>
+                    </Text>
+                </View>
+                <Text style={styles.error}>{error}</Text>
                 <Button handlePress={handleSignup} title={'Register'} />
                 <GoogleLogin />
                 <View>
@@ -67,7 +99,8 @@ export default function Signup() {
     
     const styles = StyleSheet.create({
         text: {
-            color: '#000'
+            color: '#000',
+            fontSize: 15,
         },
         heading: {
             fontSize: 35,
@@ -82,16 +115,31 @@ export default function Signup() {
             color: 'grey'
         },
         orangetext: {
-            color: 'orange',
+            color: '#FE8C00',
             fontSize: 15,
             fontWeight: "400",
-            paddingVertical: 20
+            // paddingVertical: 20,
         },
         signwith: {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'center',
             paddingVertical: 20
+        },
+        checkbox: {
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'flex-start',
+            marginTop: -20,
+            paddingVertical: 20,
+            paddingHorizontal: 10
+        },
+        error: {
+            color: 'red',
+            fontSize: 15,
+            width: '100%',
+            height: 20,
+            marginBottom: 10
         },
         container: {
             backgroundColor: 'white',

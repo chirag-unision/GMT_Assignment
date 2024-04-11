@@ -8,17 +8,20 @@ import axios from 'axios';
 import apis from '../../constants/apis';
 
 export default function Forget() {
+    const [error, setError] = useState('');
     const [email, setEmail]= useState('');
     const navigation = useNavigation<NativeStackNavigationProp<any>>();
+    const emailCheck = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     const onPressHandlerOtp = (pid: String) => {
-      navigation.replace(routes.OTP, { pid });
+      navigation.replace(routes.OTP, { pid, email });
     }; 
 
     const handleEmailVerification = () => {
         if(email!='') {
+            if(emailCheck.test(email))
             axios.post(apis.BASE_URL+'auth/sendOtp', {
-                email: email
+                email: email.toLowerCase()
             })
             .then(response => {
                 console.log(response.data.message);
@@ -26,7 +29,10 @@ export default function Forget() {
             })
             .catch(error => {
                 console.log(error);
+                setError(error.response.data.message);
             })
+            else
+            setError('Invalid Email Address.');
         } 
     }
   return (
@@ -37,6 +43,7 @@ export default function Forget() {
         </View>
         <View style={{flex: 1}}>
             <TextField title={'Email Address'} placeholder={'Enter Email'} handleChange={setEmail} />
+            <Text style={styles.error}>{error}</Text>
             <View style={styles.buttonBox}>
                 <Button title={'Continue'} handlePress={handleEmailVerification} />
             </View>
@@ -77,6 +84,12 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 10,
         width: '100%',
-    }
+    },
+    error: {
+        color: 'red',
+        fontSize: 15,
+        width: '100%',
+        height: 20
+    },
 
 })

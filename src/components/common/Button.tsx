@@ -1,11 +1,11 @@
-import { StyleSheet, Text, Pressable } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import React from 'react'
 
 export default function Button(props: any) {
   return (
-    <Pressable style={styles.button} onPress={props.handlePress}>
+    <TouchableOpacity style={styles.button} onPress={props.handlePress}>
         <Text style={{textAlign: 'center', fontWeight: '500'}}>{props.title}</Text>
-    </Pressable>
+    </TouchableOpacity>
   )
 }
 

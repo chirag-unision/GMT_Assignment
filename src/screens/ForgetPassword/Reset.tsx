@@ -5,9 +5,9 @@ import Success from '../../assets/success';
 import { useNavigation } from '@react-navigation/native';
 import routes from '../../constants/routes';
 import Button from '../../components/common/Button';
-import TextField from '../../components/common/TextField';
 import apis from '../../constants/apis';
 import axios from 'axios';
+import Password from '../../components/common/Password';
 
 export default function Reset({route}:any) {
     const [password, setPassword]= useState('');
@@ -18,7 +18,7 @@ export default function Reset({route}:any) {
     const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
     const onPressHandlerReset = () => {
-      navigation.replace(routes.LOGIN_STACK);
+      navigation.replace(routes.LOGIN);
     }; 
 
     const handleReset = () => {
@@ -45,12 +45,12 @@ export default function Reset({route}:any) {
             </View>
             <View style={{flex: 1}}>
                 <View>
-                    <TextField title={'New Password'} placeholder={'Enter Password'} handleChange={setPassword} />
+                    <Password title={'New Password'} placeholder={'Enter Password'} handleChange={setPassword} />
                     <Text style={[styles.subline]}>Must be at least 8 character</Text>
                 </View>
                 {/* // */}
                 <View>
-                    <TextField title={'Confirm Password'} placeholder={'Enter Password'} handleChange={setConfPassword} />
+                    <Password title={'Confirm Password'} placeholder={'Enter Password'} handleChange={setConfPassword} />
                     <Text style={[styles.subline]}>Both password must match</Text>
                 </View>
                 <View style={styles.buttonBox}>

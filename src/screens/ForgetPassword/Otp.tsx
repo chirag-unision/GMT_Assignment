@@ -6,10 +6,14 @@ import routes from '../../constants/routes';
 import Button from '../../components/common/Button';
 import axios from 'axios';
 import apis from '../../constants/apis';
+import OneMinuteTimer from '../../components/login/Timer';
+import Clock from '../../assets/clock';
 
 export default function Otp({route}:any) {
+    const [error, setError] = useState('');
     const [code, setCode]= useState('');
-    const { pid } = route.params;
+    const [resend, setResend]= useState(false);
+    const { pid, email } = route.params;
     const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
     const onPressHandlerContinue = (uid: String) => {
@@ -28,22 +32,43 @@ export default function Otp({route}:any) {
             })
             .catch(error => {
                 console.log(error);
+                setError(error.response.data.message);
             })
         } 
     }
+    const handleResendOtp = () => {
+        if(resend) {
+            axios.post(apis.BASE_URL+'auth/sendOtp', {
+                email: email.toLowerCase()
+            })
+            .then(response => {
+                console.log(response.data.message);
+                setResend(false);
+            })
+            .catch(error => {
+                console.log(error);
+                setError(error.response.data.message);
+            })
+        } 
+    }
+
+    const handleTimer = () => {
+        setResend(true);
+        console.log('Yayy')
+    }
+
+
   return (
     <View style={styles.container}>
         <View>
             <Text style={[styles.normaltext, styles.heading]}>Email Verification</Text>
-            <Text style={[styles.subline]}>Enter the verification code we send you on: Alberts******@gmail.com|</Text>
+            <Text style={[styles.subline]}>Enter the verification code we send you on: {email.substring(0,6)+'*****'+email.substring(11)}</Text>
         </View>
         <View style={{flex: 1}}>
             <View>
             <OTPInputView
                 style={{width: '80%', marginHorizontal: '10%', height: 100}}
                 pinCount={4}
-                // code={this.state.code} //You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
-                // onCodeChanged = {code => { this.setState({code})}}
                 autoFocusOnLoad
                 codeInputFieldStyle={styles.underlineStyleBase}
                 codeInputHighlightStyle={styles.underlineStyleHighLighted}
@@ -53,13 +78,18 @@ export default function Otp({route}:any) {
                 })}
             />
             </View>
+            <Text style={styles.error}>{error}</Text>
             <View style={styles.signwith}>
                 <Text style={styles.normaltext}>Didn't receive code? </Text>
-                <Text style={styles.orangetext}>Resend</Text>
+                <Pressable onPress={handleResendOtp}>
+                    <Text style={styles.orangetext}>Resend</Text>
+                </Pressable>
             </View>
-            <View  style={styles.signwith}>
-                <Text  style={styles.normaltext}>06:00</Text>
-            </View>
+
+            {!resend && <View  style={styles.signwith}>
+                <Clock />
+                <OneMinuteTimer onTimeUp={handleTimer} />
+            </View>}
             <View style={styles.buttonBox}>
                 <Button title={'Continue'} handlePress={handleOtpVerification} />
             </View>
@@ -126,6 +156,12 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 10,
         width: '100%',
+    },
+    error: {
+        color: 'red',
+        fontSize: 15,
+        width: '100%',
+        height: 20
     },
 
 

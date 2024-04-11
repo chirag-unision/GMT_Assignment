@@ -6,8 +6,8 @@ import {
 import Routes from '../../constants/routes';
 import Login from '../Login/Login';
 import Signup from '../Signup/Signup';
-import LoginSuccess from '../LoginSuccess/LoginSuccess';
 import PswdResetStack from './PswdResetStack';
+import MainStack from './MainStack';
 
 const LoginStack = ({ navigation }: any) => {
     const stack = createStackNavigator();
@@ -36,8 +36,8 @@ const LoginStack = ({ navigation }: any) => {
                 options={{
                     animationEnabled: false,
                 }}
-                name={Routes.LOGIN_SUCCESS}
-                component={LoginSuccess}
+                name={Routes.MAIN_STACK}
+                component={MainStack}
             />
             <stack.Screen
                 options={{

@@ -31,9 +31,6 @@ const OnBoardingStack = ({navigation}: any) => {
         component={OnBoardingThird}
       />
       <stack.Screen
-        options={{
-          animationEnabled: false,
-        }}
         name={Routes.LOGIN_STACK}
         component={LoginStack}
       />

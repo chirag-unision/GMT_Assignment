@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, Pressable, Dimensions } from 'react-native'
+import { StyleSheet, Text, View, Image, Dimensions } from 'react-native'
 import React, { useEffect, useRef } from 'react'
 import RBSheet from 'react-native-raw-bottom-sheet';
 import Success from '../../assets/success';
@@ -6,6 +6,7 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { useNavigation } from '@react-navigation/native';
 import routes from '../../constants/routes';
 import Button from '../../components/common/Button';
+import { removeData } from '../../util/storage';
 
 export default function LoginSuccess() {
     const refScrollable = useRef();
@@ -17,12 +18,13 @@ export default function LoginSuccess() {
     const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
     const onPressHandler = () => {
-      navigation.replace(routes.LOGIN);
+      removeData('token').then(()=> navigation.replace(routes.LOGIN_STACK));
     }; 
 
     const signOut = async () => {
         try {
-          await GoogleSignin.signOut();
+          const isSignedIn = await GoogleSignin.isSignedIn();
+          if(isSignedIn) await GoogleSignin.signOut();
           onPressHandler();
         } catch (error) {
           console.error(error);

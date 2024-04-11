@@ -11,11 +11,13 @@ import Routes from '../../constants/routes';
 import React, { useState } from 'react';
 import CircularProgress from 'react-native-circular-progress-indicator';
 import ArrowRight from '../../assets/arrow_right';
+import { storeData } from '../../util/storage';
 
 const OnBoardingThird = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   const onPressHandler = () => {
+    storeData('onboarded', '1');
     navigation.replace(Routes.LOGIN_STACK);
   };
 
@@ -47,7 +49,7 @@ const OnBoardingThird = () => {
           </Pressable>
         </View>
         <CircularProgress
-          value={75}
+          value={100}
           radius={50}
           progressValueColor={'#fff'}
           activeStrokeColor={'#fff'}

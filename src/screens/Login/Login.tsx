@@ -7,6 +7,9 @@ import Button from '../../components/common/Button';
 import TextField from '../../components/common/TextField';
 import GoogleLogin from '../../components/login/GoogleLogin';
 import apis from '../../constants/apis';
+import { getData, storeData } from '../../util/storage';
+import Password from '../../components/common/Password';
+import { setCalendar } from '../../util/auth';
 
 export default function Login() {
     const [error, setError] = React.useState('');
@@ -21,27 +24,37 @@ export default function Login() {
       navigation.replace(routes.SIGNUP);
     };  
 
-    const onPressHandlerLogin = () => {
-      navigation.replace(routes.LOGIN_SUCCESS);
+    const onPressHandlerLogin = (email: String) => {
+      setCalendar(email);
+      navigation.replace(routes.MAIN_STACK);
     };  
 
     const onPressHandlerReset = () => {
       navigation.push(routes.RESET_STACK);
     };  
 
+    const emailCheck = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const handleLogin = () => {
         if(email!='' && password!='') {
+            if(emailCheck.test(email))
             axios.post(apis.BASE_URL+'auth/login', {
-                email: email,
+                email: email.toLowerCase(),
                 password: password
             })
             .then(response => {
                 console.log(response);
-                onPressHandlerLogin();
+                storeData('user', response.data.user.email).then(()=>{
+                    storeData('token', response.data.token).then(()=> {
+                        onPressHandlerLogin(response.data.user.email);
+                    })
+                })
             })
             .catch(error => {
                 console.log(error);
+                setError(error.response.data.message);
             })
+            else
+            setError('Invalid Email Address.');
         }   
     }
 
@@ -81,7 +94,8 @@ export default function Login() {
         </View>
         <View>
             <TextField handleChange={setEmail} title={'Email Address'} placeholder={'Enter Email'} />
-            <TextField handleChange={setPassword} title={'Password'} placeholder={'Enter Password'} />
+            <Password handleChange={setPassword} title={'Password'} placeholder={'Enter Password'} />
+            <Text style={styles.error}>{error}</Text>
             <Pressable onPress={onPressHandlerReset}>
                 <Text style={[styles.orangetext, {textAlign: 'right'}]}>Forgot password?</Text>
             </Pressable>
@@ -116,7 +130,7 @@ const styles = StyleSheet.create({
         color: 'grey'
     },
     orangetext: {
-        color: 'orange',
+        color: '#FE8C00',
         fontSize: 15,
         fontWeight: "400",
         paddingVertical: 20
@@ -126,6 +140,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         paddingVertical: 20,
+    },
+    error: {
+        color: 'red',
+        fontSize: 15,
+        width: '100%',
+        height: 20
     },
     container: {
         backgroundColor: 'white',

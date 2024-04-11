@@ -2,12 +2,19 @@ import { StyleSheet, Text, View, Pressable } from 'react-native'
 import React from 'react'
 import GoogleIcon from '../../assets/google_logo';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { storeData } from '../../util/storage';
+import { useNavigation } from '@react-navigation/native';
+import routes from '../../constants/routes';
+import { setCalendar } from '../../util/auth';
 
 export default function GoogleLogin() {
-    GoogleSignin.configure({
-        webClientId: '689329845646-p41j4fsloj8atc83dsvou65du2ju3fn4.apps.googleusercontent.com',
-        scopes: ['profile', 'email'],
-    });
+
+    const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
+    const onPressHandlerLogin = (email: String) => {
+      setCalendar(email);
+      navigation.replace(routes.MAIN_STACK);
+    }; 
 
     const GoogleLogin = async () => {
         await GoogleSignin.hasPlayServices();
@@ -21,13 +28,16 @@ export default function GoogleLogin() {
 			const { idToken, user } = response;
 
 			if (idToken) {
-                console.log(idToken);
+                storeData('Gtoken', idToken);
+                storeData('user', user.email);
+                onPressHandlerLogin(user.email);
 				// const resp = await authAPI.validateToken({
 				// 	token: idToken,
 				// 	email: user.email,
 				// });
 				// await handlePostLoginData(resp.data);
 			}
+
 		} catch (apiError) {
             console.log(apiError.message || 'Something went wrong');
 		} finally {

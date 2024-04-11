@@ -4,12 +4,10 @@ import {
     createStackNavigator,
 } from '@react-navigation/stack';
 import Routes from '../../constants/routes';
-import Forget from '../ForgetPassword/Forget';
-import Reset from '../ForgetPassword/Reset';
-import Otp from '../ForgetPassword/Otp';
+import LoginSuccess from '../LoginSuccess/LoginSuccess';
 import LoginStack from './LoginStack';
 
-const PswdResetStack = ({ navigation }: any) => {
+const MainStack = ({ navigation }: any) => {
     const stack = createStackNavigator();
 
     return (
@@ -22,24 +20,17 @@ const PswdResetStack = ({ navigation }: any) => {
                 options={{
                     animationEnabled: false,
                 }}
-                name={Routes.FORGET}
-                component={Forget}
+                name={Routes.LOGIN_SUCCESS}
+                component={LoginSuccess}
             />
             <stack.Screen
                 options={{
                     animationEnabled: false,
                 }}
-                name={Routes.OTP}
-                component={Otp}
-            />
-            <stack.Screen
-                options={{
-                    animationEnabled: false,
-                }}
-                name={Routes.RESET}
-                component={Reset}
+                name={Routes.LOGIN_STACK}
+                component={LoginStack}
             />
         </stack.Navigator>
     );
 };
-export default PswdResetStack;
+export default MainStack;
