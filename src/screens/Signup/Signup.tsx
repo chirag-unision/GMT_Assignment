@@ -6,7 +6,7 @@ import Button from '../../components/common/Button';
 import TextField from '../../components/common/TextField';
 import GoogleLogin from '../../components/login/GoogleLogin';
 import axios from 'axios';
-import apis from '../../constants/apis';
+import apis from '../../constants/config';
 import { storeData } from '../../util/storage';
 import Password from '../../components/common/Password';
 import CheckBox from 'react-native-check-box';

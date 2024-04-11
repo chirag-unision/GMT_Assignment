@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import routes from '../../constants/routes';
 import Button from '../../components/common/Button';
 import axios from 'axios';
-import apis from '../../constants/apis';
+import apis from '../../constants/config';
 import OneMinuteTimer from '../../components/login/Timer';
 import Clock from '../../assets/clock';
 

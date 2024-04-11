@@ -1,6 +1,6 @@
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import axios from "axios";
-import apis from "../constants/apis";
+import apis from "../constants/config";
 
 export const getCurrentUser = async () => {
     const currentUser = await GoogleSignin.getCurrentUser();

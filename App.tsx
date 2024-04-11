@@ -18,7 +18,8 @@ import HomeStack from './src/screens/Navigation/MainStack';
 import { getCurrentUser } from './src/util/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import axios from 'axios';
-import apis from './src/constants/apis';
+import apis from './src/constants/config';
+import config from './src/constants/config';
 
 
 function App(): React.JSX.Element {
@@ -29,7 +30,7 @@ function App(): React.JSX.Element {
 
   useEffect(() => {
     GoogleSignin.configure({
-      webClientId: '689329845646-p41j4fsloj8atc83dsvou65du2ju3fn4.apps.googleusercontent.com',
+      webClientId: config.WEBCLIENT,
       scopes: ['profile', 'email'],
     });
     

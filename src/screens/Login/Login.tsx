@@ -6,7 +6,7 @@ import routes from '../../constants/routes';
 import Button from '../../components/common/Button';
 import TextField from '../../components/common/TextField';
 import GoogleLogin from '../../components/login/GoogleLogin';
-import apis from '../../constants/apis';
+import apis from '../../constants/config';
 import { storeData } from '../../util/storage';
 import Password from '../../components/common/Password';
 import { setCalendar } from '../../util/auth';

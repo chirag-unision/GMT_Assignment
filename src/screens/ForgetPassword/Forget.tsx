@@ -5,7 +5,7 @@ import routes from '../../constants/routes';
 import TextField from '../../components/common/TextField';
 import Button from '../../components/common/Button';
 import axios from 'axios';
-import apis from '../../constants/apis';
+import apis from '../../constants/config';
 
 export default function Forget() {
     const [error, setError] = useState('');

@@ -5,7 +5,7 @@ import Success from '../../assets/success';
 import { useNavigation } from '@react-navigation/native';
 import routes from '../../constants/routes';
 import Button from '../../components/common/Button';
-import apis from '../../constants/apis';
+import apis from '../../constants/config';
 import axios from 'axios';
 import Password from '../../components/common/Password';
 
