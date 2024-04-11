@@ -89,6 +89,12 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+        storeFile file('gmt_project.keystore')
+        storePassword 'rockstar123'
+        keyAlias 'gmt_project'
+        keyPassword 'rockstar123'
+        }
     }
     buildTypes {
         debug {
