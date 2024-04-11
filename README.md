@@ -14,3 +14,6 @@ The backend of the application is written in Express.JS, deployed on railway.app
 To setup the backend development server,
 1. run `npm install`
 2. run `node index.js`
+
+## Important Note⚠️
+As the backend is deployed on the free account, it can take a few seconds to send response to the Android App.
